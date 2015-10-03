@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	.row
+		include ./partials/sidebar
+		.col-sm-6#main
+			legend List of All Formulas
+			ul.formula-list
+				each formula in formulas
+					li
+						a(href='/formula/' + formula.id.toString())= formula.title
+		.col-sm-3
+			#ads
+				script()
+					include ./includes/chitika-right.js
+			script(type='text/javascript', src='//cdn.chitika.net/getads.js', async)

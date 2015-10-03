@@ -1,0 +1,29 @@
+extends layout
+
+block meta
+	meta(property='og:description', content=formula.title)
+
+block content
+	#fb-root
+	script
+		include ./includes/fbsdk.js
+	.row
+		include ./partials/sidebar
+		.col-sm-6#main
+			legend= formula.title
+			.row
+				.col-md-12
+					.formula-math.formula-math-lg !{formula.html}
+					label(style='font-size: 16px; font-weight: normal') Copy as plaintext
+					pre.text-center= formula.formula
+					if formula.comments
+						label(style='font-size: 16px; font-weight: normal') Comments
+						.well= formula.comments
+					.share
+						.share-item.fb-share-button(data-layout='button')
+						.share-item.fb-send(data-layout='button')
+		.col-sm-3
+			#ads
+				script()
+					include ./includes/chitika-right.js
+			script(type='text/javascript', src='//cdn.chitika.net/getads.js', async)

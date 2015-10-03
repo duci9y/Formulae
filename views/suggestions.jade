@@ -1,0 +1,29 @@
+extends layout
+
+block scripts
+
+block content
+	.row
+		include ./partials/sidebar
+		.col-sm-6#main
+			form.form-horizontal(method='POST', action='/suggestions'): fieldset()
+				legend() Suggestions
+				.form-group
+					label.col-sm-3.control-label(for='name') Name
+					.col-sm-9
+						input.form-control#name(name='name', type='text', autofocus)
+				.form-group
+					label.col-sm-3.control-label(for='email') Email
+					.col-sm-9
+						input.form-control#email(name='email', type='email', placeholder='If you expect a reply')
+				.form-group
+					label.col-sm-3.control-label(for='message') Message
+					.col-sm-9
+						textarea.form-control#message(name='message')
+				.form-group
+					.col-sm-9.col-sm-offset-3
+						button.btn.btn-primary(type='submit') Send Message
+			if typeof(success) !== 'undefined'
+				.alert.alert-success() Message sent.
+			if typeof(error) !== 'undefined'
+				.alert.alert-danger()= error.message

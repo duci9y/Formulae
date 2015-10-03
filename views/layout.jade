@@ -1,0 +1,37 @@
+doctype html
+html(lang='en')
+	head
+		title= !!title ? title : 'Formulae: Quickly look up mathematical formulas'
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		meta(proerty='og:sitename', content='Formulae')
+		block meta
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lora:700,400')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Source+Sans+Pro')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script()
+			include ./includes/analytics.js
+		script(type='text/javascript' src='https://code.jquery.com/jquery-2.1.4.min.js')
+		script(type='text/javascript', src='/javascripts/dropdown.js')
+		block scripts
+	body
+		#wrapper
+			.container
+				.row
+					.col-sm-2.col-xs-9: a.header(href='/'): h1= 'Formulae'
+					.visible-xs-block.col-xs-3
+						.dropdown.pull-right#dropdown
+							button.btn.btn-dark.dropdown-toggle(type='button', data-toggle='dropdown')
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							ul.dropdown-menu.dropdown-menu-right
+								li: a(href='/add') Add Formula
+								li: a(href='/suggestions') Feedback and Suggestions
+								li: a(href='/listall') List of all formulas
+
+				block content
+			.container-fluid
+				.row
+					footer.col-sm-12.text-center#footer.
+						New Delhi, India. By continuing to use this site, you acknowledge that you have read the #[a(href='/privacy.html') Privacy Policy].

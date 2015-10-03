@@ -1,0 +1,65 @@
+extends layout
+
+block scripts
+	script(type='text/javascript', src='https://www.google.com/recaptcha/api.js', async)
+	script(type='text/x-mathjax-config').
+		MathJax.Hub.Config({
+			showProcessingMessages: false,
+			messageStyle: 'none',
+			extensions: ['asciimath2jax.js'],
+			jax: ["input/AsciiMath", "output/SVG"],
+			//- elements: ['preview'],
+			showMathMenu: false,
+			asciimath2jax: {
+				preview: 'none'
+			},
+			SVG: {
+				font: 'STIX-Web'
+			}
+		});
+	script(type='text/javascript', src='http://cdn.mathjax.org/mathjax/latest/MathJax.js', async)
+	script(type='text/javascript', src='http://underscorejs.org/underscore-min.js')
+block content
+	.row
+		include ./partials/sidebar
+		.col-sm-6#main
+			form.form-horizontal(method='POST', action='/add'): fieldset()
+				legend Add Formula
+				.form-group
+					label.col-sm-3.control-label(for='title') Title
+					.col-sm-9
+						input.form-control#title(name='title', type='text', placeholder='The product of two sines, etc', autofocus)
+				.form-group
+					label.col-sm-3.control-label(for='formula') Formula
+					.col-sm-9
+						input.form-control#formula(name='formula', type='text', placeholder='2 sin A sin B…', aria-describedby='amsyntax' oninput='u(this.value)', autocomplete='off')
+						span.help-block.help-block-custom#amsyntax: a(href='http://asciimath.org/#syntax', target='_blank') Syntax help
+				.form-group
+					label.col-sm-3.control-label(for='preview') Preview
+					.col-sm-9
+						.form-control-static
+							.formula-math.formula-math-lg.formula-math-preview
+								#preview ``
+				.form-group
+					label.col-sm-3.control-label(for='comments') Comments
+					.col-sm-9
+						textarea.form-control#comments(name='comments', rows='5' placeholder='Trivia, clarifications, explanations, attributions, etc. Optional.')
+				.form-group
+					label.col-sm-3.control-label Captcha
+					.g-recaptcha.col-sm-9#captcha(data-sitekey=recaptcha_key, data-theme='dark')
+				.form-group
+					.col-sm-9.col-sm-offset-3
+						button.btn.btn-primary(type='submit') Add Formula
+			if typeof(success) !== 'undefined'
+				.alert.alert-success() Formula added.
+			if typeof(error) !== 'undefined'
+				.alert.alert-danger()= error.message
+	script(type='text/javascript').
+		var q;
+		var p;
+		window.u = _.debounce(function(v) {
+			if (typeof MathJax === 'undefined') return;
+			if (!q) q = MathJax.Hub.queue;
+			if (!p) q.Push(function() { p = MathJax.Hub.getAllJax('preview')[0]; });
+			else q.Push(['Text', p, v]);
+		}, 200);
