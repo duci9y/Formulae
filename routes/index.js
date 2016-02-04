@@ -44,7 +44,7 @@ router.post('/suggestions', function(req, res, next) {
         res.render('suggestions', {
             error: new Error(msg),
             title: 'Feedback' + titlesuffix,
-            recaptcha_key: RECAPTCHA_SUGGEST
+            recaptcha_key: process.env.RECAPTCHA_SUGGEST
         });
     }
     if (!req.body.name) {
@@ -61,7 +61,7 @@ router.post('/suggestions', function(req, res, next) {
                 success: true,
                 newFeedback: newFeedback,
                 title: title,
-                recaptcha_key: RECAPTCHA_SUGGEST
+                recaptcha_key: process.env.RECAPTCHA_SUGGEST
             });
         }).catch(function(err) {
             console.log(err);
@@ -116,7 +116,7 @@ router.post('/add', function(req, res) {
                                 success: true,
                                 newFormula: newFormula,
                                 title: title,
-                                recaptcha_key: RECAPTCHA_ADD
+                                recaptcha_key: process.env.RECAPTCHA_ADD
                             });
                         });
                     }).catch(function(err) {
@@ -139,7 +139,7 @@ router.get('/query/:query', function(req, res) {
         if (err) console.log('Memcached error: ' + err);
         if (data) res.send(data);
         else {
-            var tokens = query.match(/\b\w+/gi);
+            var tokens = query.replace(/\band|\bis|\bfor|\bthe|\ba|\ban/gi, '').match(/\b\w+/gi);
             var regex = '';
             for (var i = 0; i < tokens.length; i++) {
                 if (i == 0) regex += '\'';
